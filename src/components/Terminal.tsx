@@ -9,6 +9,8 @@ import React, {
 import { argTab } from "../utils/funcs";
 import TermInfo from "./TermInfo";
 import {
+  CmdNotFound,
+  Empty,
   Form,
   Hints,
   Input,
@@ -43,7 +45,7 @@ export const commands: Command = [
 type Term = {
   arg: string[];
   history: string[];
-  renderer: boolean;
+  rerender: boolean;
   index: number;
   clearHistory?: () => void;
 };
@@ -51,7 +53,7 @@ type Term = {
 export const termContext = createContext<Term>({
   arg: [],
   history: [],
-  renderer: false,
+  rerender: false,
   index: 0,
 });
 
@@ -204,6 +206,41 @@ const Terminal = () => {
           onChange={handleChange}
         />
       </Form>
+
+      {cmdHistory.map((cmdH, index) => {
+        const cmdArray = _.split(_.trim(cmdH), " ");
+        const validCmd = _.find(commands, { cmd: cmdArray[0] });
+        const contextValue = {
+          arg: _.drop(cmdArray),
+          history: cmdHistory,
+          rerender,
+          index,
+          clearHistory,
+        };
+
+        return (
+          <div key={_.uniqueId(`${cmdH}_`)}>
+            <div>
+              <TermInfo />
+              <MobileBr />
+              <MobileSpan>&#62;</MobileSpan>
+              <span data-testid="input-command">{cmdH}</span>
+            </div>
+
+            {validCmd ? (
+              <termContext.Provider value={contextValue}>
+                {/* <Output index={index} cmd={cmdArray[0]} /> */}
+              </termContext.Provider>
+            ) : cmdH === "" ? (
+              <Empty />
+            ) : (
+              <CmdNotFound data-testid={`not-found-${index}`}>
+                command not found: {cmdH}
+              </CmdNotFound>
+            )}
+          </div>
+        );
+      })}
     </Wrapper>
   );
 };
