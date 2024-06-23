@@ -18,6 +18,7 @@ import {
   MobileSpan,
   Wrapper,
 } from "./Terminal.styled";
+import Output from "./Output";
 
 type Command = {
   cmd: string;
@@ -229,7 +230,7 @@ const Terminal = () => {
 
             {validCmd ? (
               <termContext.Provider value={contextValue}>
-                {/* <Output index={index} cmd={cmdArray[0]} /> */}
+                <Output index={index} cmd={cmdArray[0]} />
               </termContext.Provider>
             ) : cmdH === "" ? (
               <Empty />
