@@ -1,4 +1,5 @@
-import { createContext, useRef, useState } from "react";
+import React, { createContext, useCallback, useRef, useState } from "react";
+import TermInfo from "./TermInfo";
 import {
   Form,
   Hints,
@@ -7,7 +8,6 @@ import {
   MobileSpan,
   Wrapper,
 } from "./Terminal.styled";
-import TermInfo from "./TermInfo";
 
 type Command = {
   cmd: string;
@@ -53,6 +53,26 @@ const Terminal = () => {
 
   const [inputVal, setInputVal] = useState("");
   const [hints, setHints] = useState<string[]>([]);
+  const [rerender, setRerender] = useState(false);
+  const [cmdHistory, setCmdHistory] = useState<string[]>(["welcome"]);
+  const [pointer, setPointer] = useState(-1);
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setRerender(false);
+      setInputVal(e.target.value);
+    },
+    [inputVal]
+  );
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCmdHistory([inputVal, ...cmdHistory]);
+    setInputVal("");
+    setRerender(true);
+    setHints([]);
+    setPointer(-1);
+  };
 
   return (
     <Wrapper data-testid="terminal-wrapper" ref={containerRef}>
@@ -64,7 +84,7 @@ const Terminal = () => {
         </div>
       )}
 
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <label htmlFor="terminal-input">
           <TermInfo /> <MobileBr />
           <MobileSpan>&#62;</MobileSpan>
@@ -80,6 +100,8 @@ const Terminal = () => {
           autoCapitalize="off"
           ref={inputRef}
           value={inputVal}
+          // onKeyDown={handleKeyDown}
+          onChange={handleChange}
         />
       </Form>
     </Wrapper>
