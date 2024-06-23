@@ -1,4 +1,12 @@
-import React, { createContext, useCallback, useRef, useState } from "react";
+import _ from "lodash";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { argTab } from "../utils/funcs";
 import TermInfo from "./TermInfo";
 import {
   Form,
@@ -13,7 +21,7 @@ type Command = {
   cmd: string;
   desc: string;
   tab: number;
-};
+}[];
 
 export const commands: Command = [
   { cmd: "about", desc: "about Sat Naing", tab: 8 },
@@ -74,6 +82,98 @@ const Terminal = () => {
     setPointer(-1);
   };
 
+  const clearHistory = () => {
+    setCmdHistory([]);
+    setHints([]);
+  };
+
+  // focus on input when terminal is clicked
+  const handleDivClick = () => {
+    inputRef.current && inputRef.current.focus();
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleDivClick);
+    return () => document.removeEventListener("click", handleDivClick);
+  }, [containerRef]);
+
+  // keyboard press
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    setRerender(false);
+    const ctrlI = e.ctrlKey && e.key.toLowerCase() === "i";
+    const ctrlL = e.ctrlKey && e.key.toLowerCase() === "l";
+
+    // if tab or ctrl + i
+    if (e.key === "Tab" || ctrlI) {
+      e.preventDefault();
+      if (!inputVal) return;
+
+      let hintsCmds: string[] = [];
+      commands.forEach(({ cmd }) => {
+        if (_.startsWith(cmd, inputVal)) {
+          hintsCmds = [...hintsCmds, cmd];
+        }
+      });
+
+      const returnedHints = argTab(inputVal, setInputVal, setHints, hintsCmds);
+      hintsCmds = returnedHints ? [...hintsCmds, ...returnedHints] : hintsCmds;
+
+      // if there are many commands to autocomplete
+      if (hintsCmds.length > 1) {
+        setHints(hintsCmds);
+      }
+      // if only 1 command to autocomplete
+      else if (hintsCmds.length === 1) {
+        const currentCmd = _.split(inputVal, " ");
+        setInputVal(
+          currentCmd.length !== 1
+            ? `${currentCmd[0]} ${currentCmd[1]} ${hintsCmds[0]}`
+            : hintsCmds[0]
+        );
+
+        setHints([]);
+      }
+    }
+
+    // if ctrl + l
+    if (ctrlL) {
+      clearHistory();
+    }
+
+    // go to previous cmd
+    if (e.key === "ArrowUp") {
+      if (pointer >= cmdHistory.length) return;
+
+      if (pointer + 1 === cmdHistory.length) return;
+
+      setInputVal(cmdHistory[pointer + 1]);
+      setPointer((prev) => prev + 1);
+      inputRef?.current?.blur();
+    }
+
+    // go to next cmd
+    if (e.key === "ArrowDown") {
+      if (pointer < 0) return;
+
+      if (pointer === 0) {
+        setInputVal("");
+        setPointer(-1);
+        return;
+      }
+
+      setInputVal(cmdHistory[pointer - 1]);
+      setPointer((prev) => prev - 1);
+      inputRef?.current?.blur();
+    }
+  };
+
+  // for caret position at the end
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inputRef?.current?.focus();
+    }, 1);
+    return () => clearTimeout(timer);
+  }, [inputRef, inputVal, pointer]);
+
   return (
     <Wrapper data-testid="terminal-wrapper" ref={containerRef}>
       {hints.length > 1 && (
@@ -100,7 +200,7 @@ const Terminal = () => {
           autoCapitalize="off"
           ref={inputRef}
           value={inputVal}
-          // onKeyDown={handleKeyDown}
+          onKeyDown={handleKeyDown}
           onChange={handleChange}
         />
       </Form>
