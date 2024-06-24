@@ -33,7 +33,7 @@ const Socials = () => {
   return arg.length > 0 || arg.length > 2 ? (
     checkArg()
   ) : (
-    <HelpWrapper data-testid="socials">
+    <HelpWrapper>
       <ProjectsIntro>Here are my social links</ProjectsIntro>
 
       {socials.map(({ id, title, url, tab }) => (

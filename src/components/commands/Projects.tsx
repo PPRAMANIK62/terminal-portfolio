@@ -36,7 +36,7 @@ const Projects = () => {
   return arg.length > 0 || arg.length > 2 ? (
     checkArg()
   ) : (
-    <div data-testid="projects">
+    <div>
       <ProjectsIntro>
         “Talk is cheap. Show me the code”? I got you. <br />
         Here are some of my projects you shouldn't misss

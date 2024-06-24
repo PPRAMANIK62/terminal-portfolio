@@ -10,7 +10,7 @@ import {
 
 const Help = () => {
   return (
-    <HelpWrapper data-testid="help">
+    <HelpWrapper>
       {commands.map(({ cmd, desc, tab }) => (
         <CmdList key={cmd}>
           <Cmd>{cmd}</Cmd>

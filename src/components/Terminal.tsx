@@ -156,7 +156,7 @@ const Terminal = () => {
   }, [inputRef, inputVal, pointer]);
 
   return (
-    <Wrapper data-testid="terminal-wrapper" ref={containerRef}>
+    <Wrapper ref={containerRef}>
       {hints.length > 1 && (
         <div>
           {hints.map((hCmd) => (
@@ -203,7 +203,7 @@ const Terminal = () => {
               <TermInfo />
               <MobileBr />
               <MobileSpan>&#62;</MobileSpan>
-              <span data-testid="input-command">{cmdH}</span>
+              <span>{cmdH}</span>
             </div>
 
             {validCmd ? (
@@ -213,7 +213,7 @@ const Terminal = () => {
             ) : cmdH === "" ? (
               <Empty />
             ) : (
-              <CmdNotFound data-testid={`not-found-${index}`}>
+              <CmdNotFound>
                 command not found: {cmdH}
               </CmdNotFound>
             )}

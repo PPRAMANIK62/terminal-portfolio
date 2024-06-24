@@ -16,7 +16,7 @@ const Usage: React.FC<Props> = ({ cmd, marginY }) => {
   const action = cmd === "themes" ? "set" : "go";
 
   return (
-    <UsageDiv data-testid={`${cmd}-invalid-arg`} marginY={marginY}>
+    <UsageDiv marginY={marginY}>
       Usage: {cmd} {action} &#60;{arg[cmd].placeholder}&#62; <br />
       eg: {cmd} {action} {arg[cmd].example}
     </UsageDiv>

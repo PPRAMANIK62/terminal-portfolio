@@ -11,7 +11,7 @@ import {
 
 const Welcome = () => {
   return (
-    <HeroContainer data-testid="welcome">
+    <HeroContainer>
       <div className="info-section">
         <PreName>
           {`

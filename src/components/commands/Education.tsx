@@ -4,7 +4,7 @@ import { Wrapper } from "../styles/Output.styled";
 
 const Education = () => {
   return (
-    <Wrapper data-testid="education">
+    <Wrapper>
       <EduIntro>Here is my education background!</EduIntro>
 
       {eduBg.map(({ desc, title }) => (

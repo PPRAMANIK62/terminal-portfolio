@@ -8,7 +8,7 @@ const History = () => {
   const currHist = _.reverse(_.slice(history, index));
 
   return (
-    <Wrapper data-testid="history">
+    <Wrapper>
       {currHist.map((cmd) => (
         <div key={_.uniqueId(`${cmd}_`)}>{cmd}</div>
       ))}

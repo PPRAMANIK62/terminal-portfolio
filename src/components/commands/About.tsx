@@ -6,7 +6,7 @@ import {
 
 const About = () => {
   return (
-    <AboutWrapper data-testid="about">
+    <AboutWrapper>
       <p>
         Hi, my name is <HighlightSpan>Purbayan Pramanik</HighlightSpan>!
       </p>
