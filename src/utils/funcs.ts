@@ -3,6 +3,14 @@ import React from "react";
 import theme from "../components/styles/themes";
 import { projects, socials } from "./constants";
 
+export const generateTabs = (num = 0): string => {
+  let tabs = "\xA0\xA0";
+  for (let i = 0; i < num; i++) {
+    tabs += "\xA0";
+  }
+  return tabs;
+};
+
 export const argTab = (
   inputVal: string,
   setInputVal: (value: React.SetStateAction<string>) => void,
