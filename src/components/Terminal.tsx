@@ -6,7 +6,9 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { commands } from "../utils/constants";
 import { argTab } from "../utils/funcs";
+import Output from "./Output";
 import TermInfo from "./TermInfo";
 import {
   CmdNotFound,
@@ -17,9 +19,7 @@ import {
   MobileBr,
   MobileSpan,
   Wrapper,
-} from "./Terminal.styled";
-import Output from "./Output";
-import { commands } from "../utils/constants";
+} from "./styles/Terminal.styled";
 
 type Term = {
   arg: string[];

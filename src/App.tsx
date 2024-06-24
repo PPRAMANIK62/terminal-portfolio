@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { DefaultTheme, ThemeProvider } from "styled-components";
+import Terminal from "./components/Terminal";
 import GlobalStyle from "./components/styles/GlobalStyle";
 import useTheme from "./hooks/useTheme";
-import Terminal from "./components/Terminal";
 
 export const themeContext = createContext<
   ((switchTheme: DefaultTheme) => void) | null
@@ -12,6 +12,18 @@ function App() {
   // themes
   const { setMode, theme, themeLoaded } = useTheme();
   const [selectedTheme, setSelectedTheme] = useState(theme);
+
+  // Disable browser's default behavior
+  // to prevent the page go up when up arrow is pressed
+  useEffect(() => {
+    window.addEventListener(
+      "keydown",
+      (e) => {
+        ["ArrowUp", "ArrowDown"].indexOf(e.code) > -1 && e.preventDefault();
+      },
+      false
+    );
+  }, []);
 
   useEffect(() => {
     setSelectedTheme(theme);

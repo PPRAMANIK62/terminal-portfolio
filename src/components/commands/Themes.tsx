@@ -7,8 +7,8 @@ import {
   isArgInvalid,
 } from "../../utils/funcs";
 import { termContext } from "../Terminal";
-import { Wrapper } from "../Terminal.styled";
 import Usage from "../Usage";
+import { Wrapper } from "../styles/Terminal.styled";
 import { ThemeSpan, ThemesWrapper } from "../styles/Themes.styled";
 import theme from "../styles/themes";
 
