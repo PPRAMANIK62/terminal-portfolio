@@ -7,6 +7,12 @@ import {
 } from "../../utils/funcs";
 import { termContext } from "../Terminal";
 import Usage from "../Usage";
+import {
+  ProjectContainer,
+  ProjectDesc,
+  ProjectTitle,
+  ProjectsIntro,
+} from "../styles/Projects.styled";
 
 const Projects = () => {
   const { arg, history, rerender } = useContext(termContext);
@@ -30,7 +36,20 @@ const Projects = () => {
   return arg.length > 0 || arg.length > 2 ? (
     checkArg()
   ) : (
-    <div data-testid="projects"></div>
+    <div data-testid="projects">
+      <ProjectsIntro>
+        “Talk is cheap. Show me the code”? I got you. <br />
+        Here are some of my projects you shouldn't misss
+      </ProjectsIntro>
+
+      {projects.map(({ id, title, desc }) => (
+        <ProjectContainer key={id}>
+          <ProjectTitle>{`${id}. ${title}`}</ProjectTitle>
+          <ProjectDesc>{desc}</ProjectDesc>
+        </ProjectContainer>
+      ))}
+      <Usage cmd="projects" marginY />
+    </div>
   );
 };
 
