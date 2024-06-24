@@ -14,7 +14,7 @@ export const generateTabs = (num = 0): string => {
 export const isArgInvalid = (
   arg: string[],
   action: string,
-  options: number[]
+  options: number[] | string[]
 ) =>
   arg[0] !== action || !_.includes(String(options), arg[1]) || arg.length > 2;
 
@@ -38,6 +38,24 @@ export const checkRedirect = (
   currcmd.length < 4 &&
   // arg last part is one of id
   _.includes(projectsId, parseInt(currcmd[2]));
+
+export const checkThemeSwitch = (
+  rerender: boolean,
+  currCmd: string[],
+  themes: string[]
+): boolean =>
+  // is submitted
+  rerender &&
+  // current command starts with 'themes'
+  currCmd[0] === "themes" &&
+  // current command has arg
+  currCmd.length > 1 &&
+  // first arg is 'set'
+  currCmd[1] === "set" &&
+  // if number of arg is valid
+  currCmd.length < 4 &&
+  // arg last part is one of id
+  _.includes(themes, currCmd[2]);
 
 export const argTab = (
   inputVal: string,
