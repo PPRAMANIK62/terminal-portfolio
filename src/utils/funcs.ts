@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import theme from "../components/styles/themes";
-import { projects, socials } from "./constants";
+import { projectsId, projectsName, socials } from "./constants";
 
 export const generateTabs = (num = 0): string => {
   let tabs = "\xA0\xA0";
@@ -10,6 +10,34 @@ export const generateTabs = (num = 0): string => {
   }
   return tabs;
 };
+
+export const isArgInvalid = (
+  arg: string[],
+  action: string,
+  options: number[]
+) =>
+  arg[0] !== action || !_.includes(String(options), arg[1]) || arg.length > 2;
+
+export const getCurrCmdArray = (history: string[]) =>
+  _.split(history[0].trim(), " ");
+
+export const checkRedirect = (
+  rerender: boolean,
+  currcmd: string[],
+  cmd: string
+): boolean =>
+  // is submitted
+  rerender &&
+  // current commad starts with ('socials' | 'projects')
+  currcmd[0] === cmd &&
+  // current command has arg
+  currcmd.length > 1 &&
+  // first arg is 'go'
+  currcmd[1] === "go" &&
+  // if num of arg is valid
+  currcmd.length < 4 &&
+  // arg last part is one of id
+  _.includes(projectsId, parseInt(currcmd[2]));
 
 export const argTab = (
   inputVal: string,
@@ -71,7 +99,7 @@ export const argTab = (
 
   // 8. if input is 'projects go '
   else if (_.startsWith(inputVal, "projects go ")) {
-    projects.forEach((t) => {
+    projectsName.forEach((t) => {
       hintsCmds = [...hintsCmds, t];
     });
     return hintsCmds;

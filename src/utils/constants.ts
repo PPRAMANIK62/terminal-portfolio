@@ -24,11 +24,39 @@ export const commands: Command = [
 export const socials = ["1. Github", "2. LinkedIn", "3. Twitter"];
 
 export const projects = [
-  "1. Project 1",
-  "2. Project 2",
-  "3. Project 3",
-  "4. Project 4",
+  {
+    id: 1,
+    title: "Project 1",
+    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti, tempore?",
+    url: "https://www.google.com",
+  },
+  {
+    id: 2,
+    title: "Project 2",
+    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti, tempore?",
+    url: "",
+  },
+  {
+    id: 3,
+    title: "Project 3",
+    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti, tempore?",
+    url: "",
+  },
+  {
+    id: 4,
+    title: "Project 4",
+    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti, tempore?",
+    url: "",
+  },
 ];
+
+export const projectsName = projects.map(({ id, title }) => {
+  return `${id}. ${title}`;
+});
+
+export const projectsId = projectsName.map((project) => {
+  return parseInt(project.split(".")[0]);
+});
 
 export const eduBg = [
   {
