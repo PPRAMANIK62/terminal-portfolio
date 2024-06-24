@@ -21,7 +21,34 @@ export const commands: Command = [
   { cmd: "whoami", desc: "about current user", tab: 7 },
 ];
 
-export const socials = ["1. Github", "2. LinkedIn", "3. Twitter"];
+export const socials = [
+  {
+    id: 1,
+    title: "GitHub",
+    url: "https://github.com/PPRAMANIK62",
+    tab: 4,
+  },
+  {
+    id: 2,
+    title: "LinkedIn",
+    url: "https://linkedin.com/in/ppramanik6",
+    tab: 2,
+  },
+  {
+    id: 3,
+    title: "Twitter",
+    url: "https://x.com/PPramanik13941",
+    tab: 3,
+  },
+];
+
+export const socialsName = socials.map(({ id, title }) => {
+  return `${id}. ${title}`;
+});
+
+export const socialsId = socials.map(({ id }) => {
+  return id;
+});
 
 export const projects = [
   {
@@ -54,8 +81,8 @@ export const projectsName = projects.map(({ id, title }) => {
   return `${id}. ${title}`;
 });
 
-export const projectsId = projectsName.map((project) => {
-  return parseInt(project.split(".")[0]);
+export const projectsId = projects.map(({ id }) => {
+  return id;
 });
 
 export const eduBg = [

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import theme from "../components/styles/themes";
-import { projectsId, projectsName, socials } from "./constants";
+import { projectsId, projectsName, socialsName } from "./constants";
 
 export const generateTabs = (num = 0): string => {
   let tabs = "\xA0\xA0";
@@ -91,7 +91,7 @@ export const argTab = (
 
   // 7. if input is 'socials go '
   else if (_.startsWith(inputVal, "socials go ")) {
-    socials.forEach((t) => {
+    socialsName.forEach((t) => {
       hintsCmds = [...hintsCmds, t];
     });
     return hintsCmds;
